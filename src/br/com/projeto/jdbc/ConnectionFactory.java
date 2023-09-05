@@ -17,7 +17,7 @@ public class ConnectionFactory {
         
         try {
                                                     //String de conexao
-            return DriverManager.getConnection("jdbc:mysql://127.0.0.1/bdvendas","usuario","123");
+            return DriverManager.getConnection("jdbc:mysql://127.0.0.1/bdvendas?useTimezone=true&serverTimezone=UTC","usuario","123");
             
         } catch (Exception erro) {
             throw new RuntimeException(erro);
@@ -27,3 +27,8 @@ public class ConnectionFactory {
     
     
 }
+
+
+
+//Problema com time zone do brasil
+//jdbc:mysql://localhost:3306/mondovino?useTimezone=true&serverTimezone=UTC", "root", "senha");
