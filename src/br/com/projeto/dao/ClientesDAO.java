@@ -180,4 +180,59 @@ public class ClientesDAO {
 
     }
 
+    //Método Buscar Cliente Por Nome
+    public List<Clientes> buscaClientePorNome(String nome) {
+
+        //Cria uma Lista, Executa o comando, pega o resultado do comando
+        //armazena em um objeto o cliente, adiciona esse objeto na lista e retorna o objeto
+        try {
+
+            //1 passo criar a list
+            List<Clientes> lista = new ArrayList<>();
+
+            //2 passo - criar o comando sql, organizar e executar
+            String sql = "select * from tb_clientes where nome like?";
+            
+            
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setString(1,nome);
+            
+            //
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                Clientes obj = new Clientes();
+
+                obj.setId(rs.getInt("id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setRg(rs.getString("rg"));
+                obj.setCpf(rs.getString("cpf"));
+                obj.setEmail(rs.getString("cpf"));
+                obj.setTelefone(rs.getString("telefone"));
+                obj.setCelular(rs.getString("celular"));
+                obj.setCep(rs.getString("cep"));
+                obj.setEndereco(rs.getString("endereco"));
+                obj.setNumero(rs.getInt("numero"));
+                obj.setComplemento(rs.getString("complemento"));
+                obj.setBairro(rs.getString("bairro"));
+                obj.setCidade(rs.getString("cidade"));
+                obj.setUf(rs.getString("estado"));
+
+                lista.add(obj);
+
+            }
+
+            return lista;
+
+        } catch (Exception erro) {
+
+            JOptionPane.showMessageDialog(null, "Erro " + erro);
+            return null;
+
+        }
+
+    }
+    
 }

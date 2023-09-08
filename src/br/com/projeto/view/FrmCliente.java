@@ -98,8 +98,8 @@ public class FrmCliente extends javax.swing.JFrame {
         txtcpf = new javax.swing.JFormattedTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtpesquisa = new javax.swing.JTextField();
+        btnpesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaClientes = new javax.swing.JTable();
         jButton8 = new javax.swing.JButton();
@@ -379,13 +379,23 @@ public class FrmCliente extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Nome:");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtpesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtpesquisaActionPerformed(evt);
+            }
+        });
+        txtpesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtpesquisaKeyPressed(evt);
             }
         });
 
-        jButton1.setText("Pesquisar");
+        btnpesquisar.setText("Pesquisar");
+        btnpesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnpesquisarActionPerformed(evt);
+            }
+        });
 
         tabelaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -411,9 +421,9 @@ public class FrmCliente extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtpesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnpesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -422,8 +432,8 @@ public class FrmCliente extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(txtpesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnpesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(155, 155, 155))
@@ -520,9 +530,9 @@ public class FrmCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtcodigoActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txtpesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpesquisaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtpesquisaActionPerformed
 
     private void txtnomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnomeActionPerformed
         // TODO add your handling code here:
@@ -635,6 +645,82 @@ public class FrmCliente extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    private void btnpesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpesquisarActionPerformed
+        //Botao Pesquisar
+        
+        
+        // %%%%% porcentagem == Caractere coringa, quero eue ele encontra qualquer caractere
+        // %a = procura os que terminam com a
+        // a% = procura os que começam com a
+        // %a% = procura os que tenham letra a no meio
+        
+        
+        String nome = "%" + txtpesquisa.getText() + "%";
+        
+         ClientesDAO dao = new ClientesDAO();
+        List<Clientes> lista = dao.buscaClientePorNome(nome);
+        DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
+        dados.setNumRows(0);
+        
+        for(Clientes c: lista) {
+            
+            dados.addRow(new Object[]{
+               c.getId(),
+               c.getNome(),
+               c.getRg(),
+               c.getCpf(),
+               c.getEmail(),
+               c.getTelefone(),
+               c.getCelular(),
+               c.getCep(),
+               c.getEndereco(),
+               c.getNumero(),
+               c.getComplemento(),
+               c.getBairro(),
+               c.getCidade(),
+               c.getUf()
+     
+        });
+            
+        }
+        
+        
+    }//GEN-LAST:event_btnpesquisarActionPerformed
+
+    private void txtpesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpesquisaKeyPressed
+       
+        //Event -> Key - KeyPressed
+        String nome = "%" + txtpesquisa.getText() + "%";
+        
+         ClientesDAO dao = new ClientesDAO();
+        List<Clientes> lista = dao.buscaClientePorNome(nome);
+        DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
+        dados.setNumRows(0);
+        
+        for(Clientes c: lista) {
+            
+            dados.addRow(new Object[]{
+               c.getId(),
+               c.getNome(),
+               c.getRg(),
+               c.getCpf(),
+               c.getEmail(),
+               c.getTelefone(),
+               c.getCelular(),
+               c.getCep(),
+               c.getEndereco(),
+               c.getNumero(),
+               c.getComplemento(),
+               c.getBairro(),
+               c.getCidade(),
+               c.getUf()
+     
+        });
+            
+        }
+        
+    }//GEN-LAST:event_txtpesquisaKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -671,9 +757,9 @@ public class FrmCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnpesquisar;
     private javax.swing.JButton btnsalvar;
     private javax.swing.JComboBox<String> cbuf;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -698,7 +784,6 @@ public class FrmCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tabelaClientes;
     private javax.swing.JTextField txtbairro;
     private javax.swing.JFormattedTextField txtcelular;
@@ -711,6 +796,7 @@ public class FrmCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtendereco;
     private javax.swing.JTextField txtnome;
     private javax.swing.JTextField txtnumero;
+    private javax.swing.JTextField txtpesquisa;
     private javax.swing.JFormattedTextField txtrg;
     private javax.swing.JFormattedTextField txttelefone;
     // End of variables declaration//GEN-END:variables
