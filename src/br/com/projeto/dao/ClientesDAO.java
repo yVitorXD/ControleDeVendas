@@ -7,10 +7,17 @@ package br.com.projeto.dao;
 import br.com.model.Clientes;
 import br.com.projeto.jdbc.ConnectionFactory;
 import com.mysql.cj.jdbc.PreparedStatementWrapper;
+import com.mysql.cj.jdbc.result.ResultSetFactory;
+import com.mysql.cj.xdevapi.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import com.mysql.cj.protocol.Resultset;
+import java.sql.ResultSet;
+
 /**
  *
  * @author Vitor
@@ -77,5 +84,56 @@ public class ClientesDAO {
         
     }
     
+    //Método Listar todos os Clientes
+    public List<Clientes> listarCliente(){
+        
+        try {
+            
+            //1 passo criar a list
+            List<Clientes> lista = new ArrayList<>();
+            
+            //2 passo - criar o comando sql, organizar e executar
+            String sql = "select * from tb_clientes";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            
+            
+            //
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                
+                Clientes obj = new Clientes();
+                
+                obj.setId(rs.getInt("id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setRg(rs.getString("rg"));
+                obj.setCpf(rs.getString("cpf"));
+                obj.setEmail(rs.getString("cpf"));
+                obj.setTelefone(rs.getString("telefone"));
+                obj.setCelular(rs.getString("celular"));
+                obj.setCep(rs.getString("cep"));
+                obj.setEndereco(rs.getString("endereco"));
+                obj.setNumero(rs.getInt("numero"));
+                obj.setComplemento(rs.getString("complemento"));
+                obj.setBairro(rs.getString("bairro"));
+                obj.setCidade(rs.getString("cidade"));
+                obj.setUf(rs.getString("uf"));
+                
+                lista.add(obj);
+                
+             }
+            
+                return lista;
+            
+            
+            
+        } catch (Exception erro) {
+            
+            JOptionPane.showMessageDialog(null, "Erro " + erro);
+            return null;
+            
+        }
+        
+    }
     
 }
