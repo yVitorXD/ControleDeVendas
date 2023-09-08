@@ -77,7 +77,6 @@ public class ClientesDAO {
             //1 passo - criar o comando sql
             String sql = "update tb_clientes set nome=?,rg=?,cpf=?,email=?,telefone=?,celular=?,cep=?,"
                     + "endereco=?,numero=?,complemento=?,bairro=?,cidade=?,estado=? where id=?";
-                    
 
             //2 passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -95,8 +94,7 @@ public class ClientesDAO {
             stmt.setString(12, obj.getCidade());
             stmt.setString(13, obj.getUf());
             stmt.setInt(14, obj.getId());
-            
-            
+
             //3 passo - Executar o comando sql
             stmt.execute();
             stmt.close();
@@ -106,30 +104,29 @@ public class ClientesDAO {
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro: " + erro);
         }
-        
+
     }
 
     //Método Excluir Cliente
     public void excluirCliente(Clientes obj) {
 
         try {
-            
+
             String sql = "delete from tb_clientes where id = ?";
-            
+
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, obj.getId());
-            
+
             stmt.execute();
             stmt.close();
-            
-            JOptionPane.showMessageDialog(null,"Excluido com Sucesso!");
-            
+
+            JOptionPane.showMessageDialog(null, "Excluido com Sucesso!");
+
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Erro " + erro);
-            
+
         }
-        
-        
+
     }
 
     //Método Listar todos os Clientes
@@ -137,7 +134,6 @@ public class ClientesDAO {
 
         //Cria uma Lista, Executa o comando, pega o resultado do comando
         //armazena em um objeto o cliente, adiciona esse objeto na lista e retorna o objeto
-        
         try {
 
             //1 passo criar a list
@@ -182,8 +178,6 @@ public class ClientesDAO {
 
         }
 
-        
-        
     }
 
 }
